@@ -7,9 +7,8 @@ public class Movement : MonoBehaviour
 {
     private Rigidbody2D playerRb;
     private Animator baseAnim;
-    private Animator underwearAnim;
 
-    private Vector2 moveInput;
+    public Vector2 moveInput;
     
     
     public bool isMoving;
@@ -20,7 +19,6 @@ public class Movement : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody2D>();
         baseAnim = GetComponent<Animator>();
-        underwearAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -33,6 +31,10 @@ public class Movement : MonoBehaviour
         {
             isMoving = false;
         }
+
+        baseAnim.SetFloat("Horizontal", moveInput.x);
+        baseAnim.SetFloat("Vertical", moveInput.y);
+        baseAnim.SetBool("IsMoving", isMoving);
     }
 
     private void FixedUpdate()
