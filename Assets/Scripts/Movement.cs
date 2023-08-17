@@ -14,7 +14,6 @@ public class Movement : MonoBehaviour
     public bool isMoving;
     [SerializeField] private float moveSpeed;
 
-    // Start is called before the first frame update
     void Awake()
     {
         playerRb = GetComponent<Rigidbody2D>();
