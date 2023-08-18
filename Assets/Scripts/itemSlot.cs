@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class itemSlot : MonoBehaviour, ISelectHandler
+public class itemSlot : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     public string itemName;
     public string itemInfo;
@@ -39,7 +39,6 @@ public class itemSlot : MonoBehaviour, ISelectHandler
     void Start()
     {
         equip.interactable = false;
-
     }
 
     void Update()
@@ -81,13 +80,19 @@ public class itemSlot : MonoBehaviour, ISelectHandler
 
     public void OnSelect(BaseEventData eventData)
     {
+        equip.onClick.AddListener(EquipButton);
         itemNameText.text = itemName;
         itemInfoText.text = itemInfo;
         itemInfoImage.sprite = itemSprite;
 
         if (itemImage.sprite == null) itemImage.sprite = emptySprite;
 
-        if (itemName == null) return;
+        if (itemName == null)
+        {
+            equip.interactable = false;
+            return;
+        }
+
         if (itemName.Contains("Equipment"))
         {
             equip.interactable = true;
@@ -99,15 +104,18 @@ public class itemSlot : MonoBehaviour, ISelectHandler
         else
         {
             equip.interactable = false;
-
         }
-        equip.onClick.AddListener(EquipButton);
+    }
 
+    public void OnDeselect(BaseEventData eventData)
+    {
+        itemNameText.text = null;
+        itemInfoText.text = null;
+        itemInfoImage.sprite = null;
     }
 
     public void EquipButton()
     {
-        Debug.Log("This is happening!");
         if (prefabToSpawn != null)
         {
             if(!isEquipped)
@@ -122,5 +130,6 @@ public class itemSlot : MonoBehaviour, ISelectHandler
                 Destroy(prefab);
             }
         }
+        equip.onClick.RemoveListener(EquipButton);
     }
 }

@@ -7,7 +7,7 @@ public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private GameObject inventoryUi;
 
-    private bool isInventoryOpen = false;
+    public bool isInventoryOpen = false;
     public itemSlot[] itemSlot;
 
     public void Inventory(InputAction.CallbackContext inventory)
