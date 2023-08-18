@@ -9,35 +9,46 @@ public class itemSlot : MonoBehaviour, ISelectHandler
 {
     public string itemName;
     public string itemInfo;
+    public GameObject prefabToSpawn;
     public int amount;
     public int maxStack;
     public Sprite itemSprite;
     public Sprite emptySprite;
     public bool isFull;
 
+
+    public bool isEquipped;
+    public GameObject prefab;
+
+    [SerializeField] private Transform player;
+
     [SerializeField] private TMP_Text amountText;
     [SerializeField] private Image itemImage;
 
 
+    public Button equip;
+    [SerializeField] private TMP_Text buttonText;
+
     public Image itemInfoImage;
     public TMP_Text itemNameText;
     public TMP_Text itemInfoText;
+    
 
     public bool isSelected;
-    // Start is called before the first frame update
+
     void Start()
     {
-        
+        equip.interactable = false;
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (amount <= 0) amountText.enabled = false;
         else amountText.enabled = true;
     }
 
-    public int AddItem(string itemName, string itemInfo, int amount, Sprite itemSprite)
+    public int AddItem(string itemName, string itemInfo, int amount, Sprite itemSprite, GameObject prefabToSpawn)
     {
         if (isFull)
         {
@@ -48,7 +59,7 @@ public class itemSlot : MonoBehaviour, ISelectHandler
 
         this.itemSprite = itemSprite;
         itemImage.sprite = itemSprite;
-
+        this.prefabToSpawn = prefabToSpawn;
         this.itemInfo = itemInfo;
 
 
@@ -72,8 +83,44 @@ public class itemSlot : MonoBehaviour, ISelectHandler
     {
         itemNameText.text = itemName;
         itemInfoText.text = itemInfo;
-        itemImage.sprite = itemSprite;
+        itemInfoImage.sprite = itemSprite;
 
         if (itemImage.sprite == null) itemImage.sprite = emptySprite;
+
+        if (itemName == null) return;
+        if (itemName.Contains("Equipment"))
+        {
+            equip.interactable = true;
+
+            if (!isEquipped) buttonText.text = "Equip";
+            else buttonText.text = "Unequip";
+
+        }
+        else
+        {
+            equip.interactable = false;
+
+        }
+        equip.onClick.AddListener(EquipButton);
+
+    }
+
+    public void EquipButton()
+    {
+        Debug.Log("This is happening!");
+        if (prefabToSpawn != null)
+        {
+            if(!isEquipped)
+            {
+                isEquipped = true;
+                prefab = Instantiate(prefabToSpawn, Vector2.zero, Quaternion.identity);
+                prefab.transform.parent = player;
+                prefab.transform.localPosition = Vector2.zero;
+            } else
+            {
+                isEquipped = false;
+                Destroy(prefab);
+            }
+        }
     }
 }

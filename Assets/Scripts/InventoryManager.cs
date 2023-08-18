@@ -31,16 +31,16 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public int AddItem(string itemName, string itemInfo, int amount, Sprite itemSprite)
+    public int AddItem(string itemName, string itemInfo, int amount, Sprite itemSprite, GameObject prefabToSpawn)
     {
         for (int i = 0; i < itemSlot.Length; i++)
         {
             if(!itemSlot[i].isFull && itemSlot[i].itemName == itemName || itemSlot[i].amount == 0)
             {
-                int itemCount = itemSlot[i].AddItem(itemName, itemInfo, amount, itemSprite);
+                int itemCount = itemSlot[i].AddItem(itemName, itemInfo, amount, itemSprite, prefabToSpawn);
                 if (itemCount > 0)
                 {
-                    itemCount = AddItem(itemName, itemInfo, itemCount, itemSprite);
+                    itemCount = AddItem(itemName, itemInfo, itemCount, itemSprite, prefabToSpawn);
                 }
                 return itemCount;
             }
