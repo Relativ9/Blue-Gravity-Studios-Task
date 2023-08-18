@@ -6,6 +6,7 @@ public class Item : MonoBehaviour
 {
 
     [SerializeField] private string itemName;
+    [SerializeField][TextArea] private string itemInfo;
     [SerializeField] private int amount;
     [SerializeField] private Sprite itemSprite;
 
@@ -26,14 +27,11 @@ public class Item : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            invenManager.AddItem(itemName, amount, itemSprite);
+            int itemCount = invenManager.AddItem(itemName, itemInfo, amount, itemSprite);
+            if (itemCount <= 0) Destroy(gameObject);
+            else amount = itemCount;
             Destroy(gameObject);
         }
 
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
     }
 }

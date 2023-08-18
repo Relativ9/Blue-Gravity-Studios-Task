@@ -23,14 +23,9 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if(moveInput.x != 0 || moveInput.y != 0)
-        {
-            isMoving = true;
-        } else
-        {
-            isMoving = false;
-        }
-
+       if(moveInput.x != 0 || moveInput.y != 0) isMoving = true;
+       else isMoving = false;
+       
         baseAnim.SetFloat("Horizontal", moveInput.x);
         baseAnim.SetFloat("Vertical", moveInput.y);
         baseAnim.SetBool("IsMoving", isMoving);
